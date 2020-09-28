@@ -38,6 +38,7 @@ class Home extends Component {
             leaders: LEADERS
         }
     }
+    
     render() {
         return(
             <ScrollView>
