@@ -15,6 +15,7 @@
     "@react-navigation/stack": "^5.9.1",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
+    "moment": "^2.27.0",
     "react": "16.13.1",
     "react-devtools": "^3.2.3",
     "react-dom": "16.13.1",
