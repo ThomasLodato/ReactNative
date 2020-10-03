@@ -6,6 +6,7 @@ import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import Menu from './MenuComponent';
 import Contact from './ContactComponent';
 import Dishdetail from './DishdetailComponent';
+import Reservation from './ReservationComponent';
 import Home from './HomeComponent';
 import About from './AboutComponent';
 import { Icon } from 'react-native-elements';
@@ -166,6 +167,29 @@ function AboutNavigatorScreen(){
     );
 }
 
+const ReservationNavigator = createStackNavigator();
+
+function ReservationNavigatorScreen() {
+    return(
+        <ReservationNavigator.Navigator
+            initialRouteName='Reservation'
+            screenOptions={HeaderOptions}
+        >
+            <ReservationNavigator.Screen
+                name="Reservation"
+                component={Reservation}
+                options={
+                    ({navigation}) => ({
+                        headerLeft: () => (
+                            <MenuIcon navigation={navigation} /> 
+                        )
+                    })
+                }
+            />           
+        </ReservationNavigator.Navigator>
+    );
+}
+
 const MainNavigator = createDrawerNavigator();
 
 function MainNavigatorDrawer() {
@@ -218,6 +242,18 @@ function MainNavigatorDrawer() {
                     drawerIcon: ({tintColor}) => (
                         <Icon
                             name='address-card'
+                            type='font-awesome'
+                            size={24}
+                            color={tintColor}
+                        />
+                    )
+                }}
+            />
+            <MainNavigator.Screen name="Reserve Table" component={ReservationNavigatorScreen} 
+                options={{
+                    drawerIcon: ({tintColor, focused}) => (
+                        <Icon
+                            name='cutlery'
                             type='font-awesome'
                             size={24}
                             color={tintColor}
