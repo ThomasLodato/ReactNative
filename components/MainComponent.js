@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Platform, ScrollView, Text, Image, StyleSheet } from 'react-native';
-import { NavigationContainer, DrawerActions } from '@react-navigation/native';
+import { View, ScrollView, Text, Image, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
 import Menu from './MenuComponent';
@@ -9,6 +9,24 @@ import Dishdetail from './DishdetailComponent';
 import Home from './HomeComponent';
 import About from './AboutComponent';
 import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
+
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromos: () => dispatch(fetchPromos()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+})
 
 const HeaderOptions = {
     headerStyle: {
@@ -213,14 +231,21 @@ function MainNavigatorDrawer() {
 
 class Main extends Component {
 
-  render() {
- 
-    return (
-        <NavigationContainer>
-            <MainNavigatorDrawer/>           
-        </NavigationContainer>
-    );
-  }
+    componentDidMount() {
+        this.props.fetchDishes();
+        this.props.fetchComments();
+        this.props.fetchPromos();
+        this.props.fetchLeaders();
+      }
+
+    render() {
+    
+        return (
+            <NavigationContainer>
+                <MainNavigatorDrawer/>           
+            </NavigationContainer>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -246,5 +271,5 @@ const styles = StyleSheet.create({
       height: 60
     }
   });
-  
-export default Main;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
