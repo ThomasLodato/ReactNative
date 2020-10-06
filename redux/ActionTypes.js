@@ -13,3 +13,4 @@ export const LEADERS_FAILED = 'LEADERS_FAILED';
 export const POST_FAVORITE = 'POST_FAVORITE';
 //Add to the store
 export const ADD_FAVORITE = 'ADD_FAVORITE';
+export const ADD_COMMENT = 'ADD_COMMENT'
