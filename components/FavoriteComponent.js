@@ -20,10 +20,6 @@ const mapStateToProps = state => {
 
 class Favorites extends Component {
 
-    static navigationOptions = {
-        title: 'My Favorites'
-    };
-
     render() {
 
         const { navigate } = this.props.navigation;
