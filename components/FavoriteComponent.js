@@ -10,7 +10,7 @@ const mapStateToProps = state => {
       dishes: state.dishes,
       favorites: state.favorites
     }
-  }
+}
 
 class Favorites extends Component {
 

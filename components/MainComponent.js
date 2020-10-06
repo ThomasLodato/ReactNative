@@ -9,6 +9,7 @@ import Dishdetail from './DishdetailComponent';
 import Reservation from './ReservationComponent';
 import Home from './HomeComponent';
 import About from './AboutComponent';
+import Favorites from './FavoriteComponent';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
@@ -190,6 +191,29 @@ function ReservationNavigatorScreen() {
     );
 }
 
+const FavoritesNavigator = createStackNavigator();
+
+function FavoritesNavigatorScreen() {
+    return(
+        <FavoritesNavigator.Navigator
+            initialRouteName='Favorites'
+            screenOptions={HeaderOptions}
+        >
+            <FavoritesNavigator.Screen
+                name="Favorites"
+                component={Favorites}
+                options={
+                    ({navigation}) => ({
+                        headerLeft: () => (
+                            <MenuIcon navigation={navigation} /> 
+                        )
+                    })
+                }
+            />           
+        </FavoritesNavigator.Navigator>
+    );
+}
+
 const MainNavigator = createDrawerNavigator();
 
 function MainNavigatorDrawer() {
@@ -254,6 +278,18 @@ function MainNavigatorDrawer() {
                     drawerIcon: ({tintColor, focused}) => (
                         <Icon
                             name='cutlery'
+                            type='font-awesome'
+                            size={24}
+                            color={tintColor}
+                        />
+                    )
+                }}
+            />
+            <MainNavigator.Screen name="Favorites" component={FavoritesNavigatorScreen} 
+                options={{
+                    drawerIcon: ({tintColor, focused}) => (
+                        <Icon
+                            name='heart'
                             type='font-awesome'
                             size={24}
                             color={tintColor}
