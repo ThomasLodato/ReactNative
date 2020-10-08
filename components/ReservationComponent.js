@@ -3,6 +3,7 @@ import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, TouchableOp
 import { Icon } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Moment from 'moment';
+import * as Animatable from 'react-native-animatable';
 
 class Reservation extends Component {
     constructor(props) {
@@ -42,6 +43,7 @@ class Reservation extends Component {
 
     render() {
         return(
+            <Animatable.View animation="zoomIn" duration={2000}>
             <ScrollView>
                 <View style={styles.formRow}>
                     <Text style={styles.formLabel}>Number of Guests</Text>
@@ -136,6 +138,7 @@ class Reservation extends Component {
                     </View>
                 </Modal>
             </ScrollView>
+            </Animatable.View>
         );
     }
 }
