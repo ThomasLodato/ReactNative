@@ -4,6 +4,8 @@ import { Icon } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Moment from 'moment';
 import * as Animatable from 'react-native-animatable';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 
 class Reservation extends Component {
     constructor(props) {
@@ -31,13 +33,14 @@ class Reservation extends Component {
                 {
                     text:'Cancel',
                     onPress:()=>{
-                        this.resetForm()
+                        this.resetForm();
                     }
                 },
                 {
                     text:'OK',
                     onPress:()=>{
-                        this.resetForm()
+                        this.presentLocalNotification(this.state.date);
+                        this.resetForm();
                     }
                 }
             ],
@@ -55,8 +58,31 @@ class Reservation extends Component {
         });
     }
 
-    static navigationOptions = {
-        title: 'Reserve Table'
+    async obtainNotificationPermission() {
+        let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if ( permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to show notifications');
+            }
+        }
+        return permission;
+    }
+
+    async presentLocalNotification(date) {
+        await this.obtainNotificationPermission();
+        Notifications.presentLocalNotificationAsync({
+            title: 'Your reservation',
+            body: 'Reservation for' + date + ' requested',
+            ios: {
+                sound: true
+            },
+            android: {
+                soud: true,
+                vibrate: true,
+                color: '#512DA8'
+            }
+        })
     }
 
     render() {
@@ -107,7 +133,6 @@ class Reservation extends Component {
                     {/* Date Time Picker */}
                     {this.state.show && (
                         <DateTimePicker
-                        //    value={this.state.date.toString()}
                             value={this.state.date}
                             mode={this.state.mode}
                             minimumDate={new Date()}
