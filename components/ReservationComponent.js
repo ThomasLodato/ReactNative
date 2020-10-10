@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, TouchableOpacity, Modal, Alert } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, TouchableOpacity, Modal, Alert, Platform } from 'react-native';
 import { Icon } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Moment from 'moment';
 import * as Animatable from 'react-native-animatable';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 
 class Reservation extends Component {
@@ -71,14 +71,14 @@ class Reservation extends Component {
 
     async presentLocalNotification(date) {
         await this.obtainNotificationPermission();
-        Notifications.presentLocalNotificationAsync({
+        Notifications.presentNotificationAsync({
             title: 'Your reservation',
             body: 'Reservation for' + date + ' requested',
             ios: {
                 sound: true
             },
             android: {
-                soud: true,
+                sound: true,
                 vibrate: true,
                 color: '#512DA8'
             }
