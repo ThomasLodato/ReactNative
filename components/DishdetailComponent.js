@@ -1,5 +1,5 @@
 import React, { Component, useRef } from 'react';
-import { Text, View, ScrollView, StyleSheet, Picker, FlatList, Modal, Button, Alert, PanResponder } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Picker, FlatList, Modal, Button, Alert, PanResponder, Share } from 'react-native';
 import { Card, Icon, AirbnbRating, Input, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -24,6 +24,16 @@ function RenderDish(props) {
     const dish = props.dish;
     
     const viewRef = useRef(null);
+
+    const shareDish = (title, message, url) => {
+        Share.share({
+            title: title,
+            message: title + ': ' + message + ' ' + url,
+            url: url
+        },{
+            dialogTitle: 'Share ' + title
+        })
+    }
 
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
         if ( dx < -200 )
@@ -93,6 +103,15 @@ function RenderDish(props) {
                                 type='font-awesome'
                                 color='#512DA8'
                                 onPress = {() => props.toggleModal()}
+                            />
+                            <Icon 
+                                raised
+                                reverse
+                                name='share'
+                                type='font-awesome'
+                                color='#51D2A8'
+                                style={styles.cardItem}
+                                onPress= {() => shareDish(dish.name, dish.description, baseUrl + dish.image)}
                             />
                         </View>
                     </Card>
