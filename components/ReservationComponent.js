@@ -6,6 +6,7 @@ import Moment from 'moment';
 import * as Animatable from 'react-native-animatable';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
     constructor(props) {
@@ -39,6 +40,7 @@ class Reservation extends Component {
                 {
                     text:'OK',
                     onPress:()=>{
+                        this.addReservationToCalendar(this.state.date);
                         this.presentLocalNotification(this.state.date);
                         this.resetForm();
                     }
@@ -55,6 +57,35 @@ class Reservation extends Component {
             date: new Date(),
             show: false,
             mode: 'date'
+        });
+    }
+
+    async obtainCalendarPermission() {
+        let permission = await Permissions.getAsync(Permissions.CALENDAR);
+        if ( permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.CALENDAR);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to use calendar');
+            }
+        }
+        return permission;
+    }
+
+    async getDefaultCalendarId() {
+        const calendars = await Calendar.getCalendarsAsync();
+        const defaultCalendars = calendars.filter(each => each.source.name === 'Default');
+        return defaultCalendars[0].id;
+      }
+    
+    async addReservationToCalendar(date) {
+        await this.obtainCalendarPermission();
+        const calendars = await Calendar.getCalendarsAsync();
+        const defaultCalendarId = await this.getDefaultCalendarId();
+    
+        Calendar.createEventAsync(defaultCalendarId, {
+            title: 'Con Fusion Table Reservation',
+            startDate: new Date(Date.parse(date)),
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
         });
     }
 
