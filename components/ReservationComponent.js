@@ -70,21 +70,14 @@ class Reservation extends Component {
         }
         return permission;
     }
-
-    async getDefaultCalendarId() {
-        const calendars = await Calendar.getCalendarsAsync();
-        const defaultCalendars = calendars.filter(each => each.source.name === 'Default');
-        return defaultCalendars[0].id;
-      }
     
     async addReservationToCalendar(date) {
         await this.obtainCalendarPermission();
-        const calendars = await Calendar.getCalendarsAsync();
-        const defaultCalendarId = await this.getDefaultCalendarId();
-    
-        Calendar.createEventAsync(defaultCalendarId, {
-            title: 'Con Fusion Table Reservation',
+        const eventIdInCalendar = await Calendar.createEventAsync("1", {
+            title: 'Confusion Table Reservation',
             startDate: new Date(Date.parse(date)),
+            endDate: new Date(Date.parse(date) + (2*60*60*1000)),
+            timeZone: 'Asia / Hong Kong',
             location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
         });
     }

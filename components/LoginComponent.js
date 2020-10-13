@@ -216,7 +216,7 @@ class RegisterTab extends Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignContent: 'space-around'}}>
+                    <View style={{flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
                         <Image 
                             source={{uri: this.state.imageUrl}} 
                             loadingIndicatorSource={require('./images/logo.png')}
